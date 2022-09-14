@@ -6,8 +6,8 @@ jobs:
     steps:
       - name: Checkout
         uses: actions/checkout@v3
-      - name: Show available disk space before build
-        run: Get-PSDrive -PSProvider FileSystem
+      - name: Show available disk space before build
+        run: Get-PSDrive -PSProvider FileSystem
       - name: Create working directory
         run: md -p C:\workdir
       - name: Install MozillaBuild
