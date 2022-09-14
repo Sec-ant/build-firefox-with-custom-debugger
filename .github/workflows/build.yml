@@ -16,5 +16,11 @@ jobs:
       - name: Install MozillaBuild
         working-directory: C:\workdir
         run: ./MozillaBuildSetup-Latest.exe /NCRC /S
-      - name: Test
-        run: Get-ChildItem C:\mozilla-build
+      - name: Bootstrap
+        run: |
+          cd c:/workdir
+          mkdir mozilla-source
+          cd mozilla-source
+          wget https://hg.mozilla.org/mozilla-central/raw-file/default/python/mozboot/bin/bootstrap.py
+          python3 bootstrap.py
+        shell: C:\mozilla-build\start-shell.bat {0}
