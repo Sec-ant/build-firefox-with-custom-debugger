@@ -14,5 +14,5 @@ jobs:
         working-directory: C:\workdir
         run: |
           Invoke-WebRequest -Uri "https://ftp.mozilla.org/pub/mozilla.org/mozilla/libraries/win32/MozillaBuildSetup-Latest.exe" -OutFile "./MozillaBuildSetup-Latest.exe";
-          if($?) { ./MozillaBuildSetup-Latest.exe /NCRC /S };
-          if($?) { Get-ChildItem C:\mozilla-build }
+          ./MozillaBuildSetup-Latest.exe /NCRC /S;
+          Get-ChildItem C:\mozilla-build;
