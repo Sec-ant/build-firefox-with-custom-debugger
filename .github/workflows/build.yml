@@ -10,9 +10,11 @@ jobs:
         run: Get-PSDrive -PSProvider FileSystem
       - name: Create working directory
         run: md -p C:\workdir
+      - name: Download MozillaBuild
+        working-directory: C:\workdir
+        run: Invoke-WebRequest -Uri "https://ftp.mozilla.org/pub/mozilla.org/mozilla/libraries/win32/MozillaBuildSetup-Latest.exe" -OutFile "./MozillaBuildSetup-Latest.exe"
       - name: Install MozillaBuild
         working-directory: C:\workdir
-        run: |
-          Invoke-WebRequest -Uri "https://ftp.mozilla.org/pub/mozilla.org/mozilla/libraries/win32/MozillaBuildSetup-Latest.exe" -OutFile "./MozillaBuildSetup-Latest.exe";
-          ./MozillaBuildSetup-Latest.exe /NCRC /S;
-          Get-ChildItem C:\mozilla-build;
+        run: ./MozillaBuildSetup-Latest.exe /NCRC /S
+      - name: Test
+        run: Get-ChildItem C:\mozilla-build
