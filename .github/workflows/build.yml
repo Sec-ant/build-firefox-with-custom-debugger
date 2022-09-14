@@ -16,6 +16,8 @@ jobs:
       - name: Install MozillaBuild
         working-directory: C:\workdir
         run: ./MozillaBuildSetup-Latest.exe /NCRC /S
+      - name: Start shell
+        run: C:\mozilla-build\start-shell.bat
       - name: Bootstrap
         run: |
           cd c:/workdir
