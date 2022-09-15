@@ -11,7 +11,7 @@ jobs:
       - name: Create working directory
         run: |
           md -p C:\workdir
-          md -p C:\workdir\mozilla-source
+          md -p C:\workdir\mozilla-source\mozilla-unified
       - name: Copy files
         run: Copy-Item * -Destination C:\workdir
       - name: Download MozillaBuild
@@ -25,5 +25,8 @@ jobs:
         run: Invoke-WebRequest -Uri "https://hg.mozilla.org/mozilla-central/raw-file/default/python/mozboot/bin/bootstrap.py" -OutFile "./bootstrap.py"
       - name: Bootstrap
         working-directory: C:\workdir\mozilla-source
-        run: C:\mozilla-build\start-shell.bat -here -c "python3 bootstrap.py --application-choice 'Firefox for Desktop' --no-interactive"
+        run: |
+          cd c:/mozilla-source/mozilla-unified
+          hg pull https://hg.mozilla.org/mozilla-unified --insecure
+        shell: C:\mozilla-build\start-shell.bat {0}
         
