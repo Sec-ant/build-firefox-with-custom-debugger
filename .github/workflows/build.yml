@@ -20,5 +20,5 @@ jobs:
         run: ./MozillaBuildSetup-Latest.exe /NCRC /S
       - name: Bootstrap
         working-directory: C:\workdir
-        run: C:\mozilla-build\start-shell.bat -here ./bootstrap.sh
+        run: C:\mozilla-build\start-shell.bat -here -c "wget https://hg.mozilla.org/mozilla-central/raw-file/default/python/mozboot/bin/bootstrap.py"
         
