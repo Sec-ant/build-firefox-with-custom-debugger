@@ -25,5 +25,6 @@ jobs:
         run: Invoke-WebRequest -Uri "https://hg.mozilla.org/mozilla-central/raw-file/default/python/mozboot/bin/bootstrap.py" -OutFile "./bootstrap.py"
       - name: Bootstrap
         working-directory: C:\workdir\mozilla-source
-        run: C:\mozilla-build\start-shell.bat -here -c "python3 bootstrap.py"
+        run: python3 C:\workdir\mozilla-source\bootstrap.py
+        shell: C:\mozilla-build\start-shell.bat {0}
         
