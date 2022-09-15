@@ -26,5 +26,4 @@ jobs:
       - name: Bootstrap
         working-directory: C:\workdir\mozilla-source
         run: python3 bootstrap.py
-        shell: C:\mozilla-build\start-shell.bat {0}
         
