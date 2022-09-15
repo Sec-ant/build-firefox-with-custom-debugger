@@ -18,9 +18,5 @@ jobs:
         run: ./MozillaBuildSetup-Latest.exe /NCRC /S
       - name: Bootstrap
         working-directory: C:\workdir
-        run: |
-          mkdir mozilla-source
-          cd mozilla-source
-          wget https://hg.mozilla.org/mozilla-central/raw-file/default/python/mozboot/bin/bootstrap.py
-          python3 bootstrap.py
-        shell: C:\mozilla-build\start-shell.bat -here -e {0}
+        run: C:\mozilla-build\start-shell.bat -here -c "env"
+        
