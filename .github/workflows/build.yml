@@ -9,7 +9,9 @@ jobs:
       - name: Show available disk space before build
         run: Get-PSDrive -PSProvider FileSystem
       - name: Create working directory
-        run: md -p C:\workdir
+        run: |
+          md -p C:\workdir
+          md -p C:\workdir\mozilla-source
       - name: Copy files
         run: Copy-Item * -Destination C:\workdir
       - name: Download MozillaBuild
@@ -18,7 +20,10 @@ jobs:
       - name: Install MozillaBuild
         working-directory: C:\workdir
         run: ./MozillaBuildSetup-Latest.exe /NCRC /S
+      - name: Download bootstrap script
+        working-directory: C:\workdir\mozilla-source
+        run: Invoke-WebRequest -Uri "https://hg.mozilla.org/mozilla-central/raw-file/default/python/mozboot/bin/bootstrap.py" -OutFile "./bootstrap.py"
       - name: Bootstrap
-        working-directory: C:\workdir
-        run: C:\mozilla-build\start-shell.bat -here -c "python3 --version"
+        working-directory: C:\workdir\mozilla-source
+        run: C:\mozilla-build\start-shell.bat -here -c "python3 bootstrap.py"
         
