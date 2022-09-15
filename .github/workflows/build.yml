@@ -25,6 +25,6 @@ jobs:
         run: Invoke-WebRequest -Uri "https://hg.mozilla.org/mozilla-central/raw-file/default/python/mozboot/bin/bootstrap.py" -OutFile "./bootstrap.py"
       - name: Bootstrap
         working-directory: C:\workdir\mozilla-source
-        run: python3 bootstrap.py --application-choice "Firefox for Desktop" --no-interactive
+        run: openssl s_client -connect hg.cdn.mozilla.net:443 < /dev/null 2>/dev/null | openssl x509 -fingerprint -sha256 -noout | grep -E -o '([0-9A-F][0-9A-F]:?){32}' | sed -e 's/^/[hostsecurity]\nhg.cdn.mozilla.net:fingerprints = sha256:/' >> ~/.hgrc && python3 bootstrap.py --application-choice "Firefox for Desktop" --no-interactive
         shell: C:\mozilla-build\start-shell.bat {0}
         
