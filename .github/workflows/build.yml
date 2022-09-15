@@ -39,4 +39,30 @@ jobs:
         working-directory: C:\workdir\mozilla-source
         run: python3 bootstrap.py --application-choice "Firefox for Desktop" --no-interactive
         shell: C:\mozilla-build\start-shell.bat {0}
-        
+      - name: Replace debugger
+        working-directory: C:\workdir\mozilla-source\mozilla-unified
+        run: |
+          sed -i 's/MACRO(debugger, debugger, TokenKind::Debugger)/MACRO(my_debugger, debugger, TokenKind::Debugger)/' \
+          js/src/frontend/ReservedWords.h
+          sed -i 's/MACRO_(debugger, debugger, "debugger")/MACRO_(my_debugger, debugger, "my_debugger")/' \
+          js/src/vm/CommonPropertyNames.h
+        shell: C:\mozilla-build\start-shell.bat {0}
+      - name: Build
+        working-directory: C:\workdir\mozilla-source\mozilla-unified
+        run: |
+          ./mach build
+          ./mach run
+        shell: C:\mozilla-build\start-shell.bat {0}
+      - name: Package
+        working-directory: C:\workdir\mozilla-source\mozilla-unified
+        run: ./mach package
+        shell: C:\mozilla-build\start-shell.bat {0}
+      - name: Test
+        working-directory: C:\workdir\mozilla-source\mozilla-unified
+        run: ls -lah
+        shell: C:\mozilla-build\start-shell.bat {0}
+      # - name: Upload artifact
+      #   uses: actions/upload-artifact@v3
+      #   with:
+      #     name: firefox-installer
+      #     path: 
