@@ -12,8 +12,6 @@ jobs:
         run: |
           md -p C:\workdir
           md -p C:\workdir\mozilla-source\mozilla-unified
-      - name: Copy files
-        run: Copy-Item * -Destination C:\workdir
       - name: Download MozillaBuild
         working-directory: C:\workdir
         run: Invoke-WebRequest -Uri "https://ftp.mozilla.org/pub/mozilla.org/mozilla/libraries/win32/MozillaBuildSetup-Latest.exe" -OutFile "./MozillaBuildSetup-Latest.exe"
@@ -23,8 +21,12 @@ jobs:
       - name: Download bootstrap script
         working-directory: C:\workdir\mozilla-source
         run: Invoke-WebRequest -Uri "https://hg.mozilla.org/mozilla-central/raw-file/default/python/mozboot/bin/bootstrap.py" -OutFile "./bootstrap.py"
+      - name: Add host security config
+        working-directory: C:\workdir\mozilla-source
+        run: openssl s_client -connect hg.cdn.mozilla.net:443 < /dev/null 2>/dev/null | openssl x509 -fingerprint -sha256 -noout | grep -E -o '([0-9A-F]{2}:?){32}' | sed -e 's/^/[hostsecurity]\nhg.cdn.mozilla.net:fingerprints = sha256:/' >> ~/.hgrc
+        shell: C:\mozilla-build\start-shell.bat {0}
       - name: Bootstrap
         working-directory: C:\workdir\mozilla-source
-        run: openssl s_client -connect hg.cdn.mozilla.net:443 < /dev/null 2>/dev/null | openssl x509 -fingerprint -sha256 -noout | grep -E -o '([0-9A-F][0-9A-F]:?){32}' | sed -e 's/^/[hostsecurity]\nhg.cdn.mozilla.net:fingerprints = sha256:/' >> ~/.hgrc && python3 bootstrap.py --application-choice "Firefox for Desktop" --no-interactive
+        run: python3 bootstrap.py --application-choice "Firefox for Desktop" --no-interactive
         shell: C:\mozilla-build\start-shell.bat {0}
         
