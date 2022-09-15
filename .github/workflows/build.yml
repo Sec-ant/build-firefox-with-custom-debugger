@@ -25,8 +25,6 @@ jobs:
         run: Invoke-WebRequest -Uri "https://hg.mozilla.org/mozilla-central/raw-file/default/python/mozboot/bin/bootstrap.py" -OutFile "./bootstrap.py"
       - name: Bootstrap
         working-directory: C:\workdir\mozilla-source
-        run: |
-          cd c:/mozilla-source/mozilla-unified
-          hg pull https://hg.mozilla.org/mozilla-unified --insecure
+        run: python3 bootstrap.py --application-choice "Firefox for Desktop" --no-interactive
         shell: C:\mozilla-build\start-shell.bat {0}
         
