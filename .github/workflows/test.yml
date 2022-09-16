@@ -8,6 +8,8 @@ jobs:
         uses: actions/checkout@v3
       - name: Shell test
         run: |
+          apt update
+          sudo apt install wget m4
           wget --version
           m4 --version
         shell: bash
